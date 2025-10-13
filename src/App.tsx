@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import { AppLayout } from "./components/layout/AppLayout";
 import Settings from "./pages/Settings";
 import "./i18n";
+import Projects from "./pages/Projects";
 
 const DEBUG = import.meta.env.DEV;
 
@@ -42,7 +43,9 @@ function App() {
         <AppLayout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/impostazioni" element={<Settings />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/info" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>

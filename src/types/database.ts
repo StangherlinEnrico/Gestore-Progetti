@@ -9,7 +9,7 @@ export type Project = {
   description: string | null;
   createdAt: Date;
   updatedAt: Date;
-  status: 'active' | 'archived' | 'deleted';
+  status: 'active' | 'completed' | 'archived' | 'deleted';
 };
 
 export type CreateProjectPayload = {

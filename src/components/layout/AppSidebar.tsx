@@ -15,8 +15,8 @@ import {
 
 const menuItems = [
   { key: "dashboard", url: "/", icon: LayoutDashboard },
-  { key: "projects", url: "/progetti", icon: FolderKanban },
-  { key: "settings", url: "/impostazioni", icon: Settings },
+  { key: "projects", url: "/projects", icon: FolderKanban },
+  { key: "settings", url: "/settings", icon: Settings },
   { key: "info", url: "/info", icon: Info },
 ];
 
