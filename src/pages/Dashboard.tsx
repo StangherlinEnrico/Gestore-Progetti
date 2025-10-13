@@ -9,19 +9,41 @@ import {
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 
+const DEBUG = import.meta.env.DEV;
+
 export default function Dashboard() {
-  const { projects } = useProjects();
+  const { projects, loading, error } = useProjects();
+
+  if (DEBUG) console.log("[Dashboard] render:", { projects, loading, error });
 
   const stats = {
-    total: projects?.length || 0,
-    active: projects?.filter((p) => p.status === "active").length || 0,
-    completed: projects?.filter((p) => p.status === "completed").length || 0,
-    archived: projects?.filter((p) => p.status === "archived").length || 0,
+    total: projects.length,
+    active: projects.filter((p) => p.status === "active").length,
+    completed: 0,
+    archived: projects.filter((p) => p.status === "archived").length,
   };
 
+  if (DEBUG) console.log("[Dashboard] stats:", stats);
+
   const handleNewProject = () => {
+    if (DEBUG) console.log("[Dashboard] handleNewProject: triggered");
     // Navigate to project creation form
   };
+
+  if (loading) {
+    if (DEBUG) console.log("[Dashboard] render: loading state");
+    return <div>Caricamento...</div>;
+  }
+
+  if (error) {
+    if (DEBUG) console.error("[Dashboard] render: error state", error);
+    return (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-destructive">Errore</h2>
+        <p className="text-muted-foreground">{error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
