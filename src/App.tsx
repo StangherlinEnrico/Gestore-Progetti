@@ -1,25 +1,19 @@
-import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import { AppLayout } from "./components/layout/AppLayout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import { AppLayout } from "./components/layout/AppLayout";
 
-const App = () => {
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
+function App() {
   return (
-    <AppLayout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </AppLayout>
+    <BrowserRouter>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AppLayout>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
