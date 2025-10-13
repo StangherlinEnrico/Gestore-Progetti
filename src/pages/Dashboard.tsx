@@ -301,10 +301,10 @@ export default function Dashboard() {
                   <div className="flex-1 text-sm font-medium text-muted-foreground">
                     {t("dashboard.list.description")}
                   </div>
-                  <div className="w-48 text-sm font-medium text-muted-foreground text-right">
+                  <div className="w-48 text-sm font-medium text-muted-foreground text-center">
                     {t("dashboard.list.lastUpdate")}
                   </div>
-                  <div className="w-28 text-sm font-medium text-muted-foreground text-right">
+                  <div className="w-28 text-sm font-medium text-muted-foreground text-center">
                     {t("dashboard.list.status")}
                   </div>
                 </div>
@@ -322,10 +322,10 @@ export default function Dashboard() {
                         ? truncateText(project.description, 130)
                         : "-"}
                     </div>
-                    <div className="w-48 text-sm text-muted-foreground text-right">
+                    <div className="w-48 text-sm text-muted-foreground text-center">
                       {new Date(project.updatedAt).toLocaleDateString()}
                     </div>
-                    <div className="w-28 flex justify-end">
+                    <div className="w-28 flex justify-center">
                       <div
                         className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
                           project.status === "active"

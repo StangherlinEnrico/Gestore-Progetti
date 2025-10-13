@@ -1,0 +1,101 @@
+{
+  "app": {
+    "title": "Gestionnaire de Projets"
+  },
+  "sidebar": {
+    "dashboard": "Tableau de bord",
+    "projects": "Projets",
+    "settings": "Paramètres",
+    "info": "Infos"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Aperçu de vos projets",
+    "newProject": "Nouveau projet",
+    "stats": {
+      "total": "Total des projets",
+      "totalDescription": "Tous les projets créés",
+      "active": "Actifs",
+      "activeDescription": "Projets en cours",
+      "completed": "Terminés",
+      "completedDescription": "Projets achevés",
+      "archived": "Archivés",
+      "archivedDescription": "Projets archivés"
+    },
+    "emptyState": {
+      "title": "Aucun projet pour le moment",
+      "description": "Commencez par créer votre premier projet pour organiser votre travail",
+      "action": "Créer le premier projet"
+    },
+    "recentProjects": {
+      "title": "Projets récents",
+      "description": "Vos derniers projets mis à jour"
+    },
+    "status": {
+      "active": "Actif",
+      "completed": "Terminé",
+      "archived": "Archivé",
+      "deleted": "Supprimé"
+    },
+    "list": {
+      "name": "Nom",
+      "description": "Description",
+      "lastUpdate": "Dernière mise à jour",
+      "status": "Statut"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurer l'application et gérer vos données",
+    "appearance": {
+      "title": "Apparence",
+      "description": "Personnalisez l'apparence de l'application",
+      "darkMode": "Mode sombre",
+      "darkModeDescription": "Activez le mode sombre pour réduire la fatigue oculaire",
+      "language": "Langue",
+      "languageDescription": "Sélectionnez la langue de l'interface"
+    },
+    "data": {
+      "title": "Gestion des données",
+      "description": "Exportez, importez ou réinitialisez vos paramètres",
+      "export": "Sauvegarde des paramètres",
+      "exportDescription": "Exportez tous vos paramètres dans un fichier JSON",
+      "exportButton": "Exporter les données",
+      "import": "Importer des paramètres",
+      "importDescription": "Importez des paramètres depuis un fichier JSON de sauvegarde",
+      "importButton": "Importer les données",
+      "reset": "Réinitialiser les paramètres",
+      "resetDescription": "Réinitialisez tous les paramètres à leurs valeurs par défaut. Cette action est irréversible.",
+      "resetButton": "Réinitialiser les paramètres"
+    },
+    "export": {
+      "success": "Sauvegarde créée",
+      "description": "Les données ont été exportées avec succès"
+    },
+    "import": {
+      "success": "Importation terminée",
+      "description": "Les données ont été importées avec succès",
+      "error": "Fichier invalide"
+    },
+    "reset": {
+      "confirm": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres ? Cette action est irréversible.",
+      "success": "Paramètres réinitialisés",
+      "description": "Les paramètres ont été rétablis aux valeurs par défaut"
+    },
+    "language": {
+      "updated": "Langue mise à jour",
+      "description": "Langue définie sur {{language}}",
+      "error": "Impossible de mettre à jour la langue"
+    }
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée",
+    "backHome": "Retour à l'accueil"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "loadMore": "Charger plus"
+  }
+}
