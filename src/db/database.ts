@@ -1,17 +1,12 @@
 import Dexie, { type EntityTable } from 'dexie';
-
-interface Project {
-  id?: number;
-  name: string;
-}
+import type { Project } from '../types/project';
 
 const db = new Dexie('GestoreProgettiDB') as Dexie & {
   projects: EntityTable<Project, 'id'>;
 };
 
 db.version(1).stores({
-  projects: '++id, name'
+  projects: 'id, name, status, startDate, createdAt, updatedAt'
 });
 
-export type { Project };
 export { db };

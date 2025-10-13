@@ -1,5 +1,16 @@
 {
   "app": {
     "title": "Project Manager"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of all your projects",
+    "newProject": "New Project",
+    "stats": {
+      "total": "Total Projects",
+      "active": "Active",
+      "completed": "Completed",
+      "archived": "Archived"
+    }
   }
 }

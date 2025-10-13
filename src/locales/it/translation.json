@@ -1,5 +1,16 @@
 {
   "app": {
     "title": "Gestore Progetti"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Panoramica dei tuoi progetti",
+    "newProject": "Nuovo progetto",
+    "stats": {
+      "total": "Totale progetti",
+      "active": "Attivi",
+      "completed": "Completati",
+      "archived": "Archiviati"
+    }
   }
 }
