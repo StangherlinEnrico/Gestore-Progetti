@@ -33,8 +33,15 @@
     },
     "status": {
       "active": "Attivo",
+      "completed": "Completato",
       "archived": "Archiviato",
       "deleted": "Eliminato"
+    },
+    "list": {
+      "name": "Nome",
+      "description": "Descrizione",
+      "lastUpdate": "Ultimo aggiornamento",
+      "status": "Stato"
     }
   },
   "settings": {
@@ -88,6 +95,7 @@
   },
   "common": {
     "loading": "Caricamento...",
-    "error": "Errore"
+    "error": "Errore",
+    "loadMore": "Carica altri"
   }
 }
