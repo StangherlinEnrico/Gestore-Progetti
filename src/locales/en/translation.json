@@ -11,6 +11,64 @@
       "active": "Active",
       "completed": "Completed",
       "archived": "Archived"
+    },
+    "emptyState": {
+      "title": "No projects yet",
+      "description": "Start by creating your first project",
+      "action": "Create first project"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Configure the application and manage your data",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize the application appearance",
+      "darkMode": "Dark theme",
+      "darkModeDescription": "Enable dark theme to reduce eye strain",
+      "language": "Language",
+      "languageDescription": "Select the interface language"
+    },
+    "data": {
+      "title": "Data Management",
+      "description": "Export, import or reset your settings",
+      "export": "Backup settings",
+      "exportDescription": "Export all your settings to a JSON file",
+      "exportButton": "Export data",
+      "import": "Import settings",
+      "importDescription": "Import settings from a backup JSON file",
+      "importButton": "Import data",
+      "reset": "Reset settings",
+      "resetDescription": "Reset all settings to default values. This action cannot be undone.",
+      "resetButton": "Reset settings"
+    },
+    "export": {
+      "success": "Backup created",
+      "description": "Data exported successfully"
+    },
+    "import": {
+      "success": "Import completed",
+      "description": "Data imported successfully",
+      "error": "Invalid file"
+    },
+    "reset": {
+      "confirm": "Are you sure you want to reset all settings? This action cannot be undone.",
+      "success": "Settings reset",
+      "description": "Settings have been reset to default values"
+    },
+    "language": {
+      "updated": "Language updated",
+      "description": "Language set to {{language}}",
+      "error": "Failed to update language"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved",
+    "backHome": "Back to Home"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error"
   }
 }

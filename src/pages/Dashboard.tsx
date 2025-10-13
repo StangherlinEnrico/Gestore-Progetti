@@ -1,5 +1,6 @@
 import { Plus, FolderKanban, CheckCircle2, Archive } from "lucide-react";
 import { useProjects } from "../hooks/useProjects";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -13,6 +14,7 @@ const DEBUG = import.meta.env.DEV;
 
 export default function Dashboard() {
   const { projects, loading, error } = useProjects();
+  const { t } = useTranslation();
 
   if (DEBUG) console.log("[Dashboard] render:", { projects, loading, error });
 
@@ -27,19 +29,20 @@ export default function Dashboard() {
 
   const handleNewProject = () => {
     if (DEBUG) console.log("[Dashboard] handleNewProject: triggered");
-    // Navigate to project creation form
   };
 
   if (loading) {
     if (DEBUG) console.log("[Dashboard] render: loading state");
-    return <div>Caricamento...</div>;
+    return <div>{t("common.loading")}</div>;
   }
 
   if (error) {
     if (DEBUG) console.error("[Dashboard] render: error state", error);
     return (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-destructive">Errore</h2>
+        <h2 className="text-2xl font-bold text-destructive">
+          {t("common.error")}
+        </h2>
         <p className="text-muted-foreground">{error.message}</p>
       </div>
     );
@@ -49,12 +52,14 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <p className="text-muted-foreground">Panoramica dei tuoi progetti</p>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {t("dashboard.title")}
+          </h2>
+          <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
         <Button onClick={handleNewProject} size="lg">
           <Plus className="mr-2 h-4 w-4" />
-          Nuovo progetto
+          {t("dashboard.newProject")}
         </Button>
       </div>
 
@@ -62,7 +67,7 @@ export default function Dashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Totale progetti
+              {t("dashboard.stats.total")}
             </CardTitle>
             <FolderKanban className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -72,7 +77,9 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Attivi</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.stats.active")}
+            </CardTitle>
             <div className="h-4 w-4 rounded-full bg-primary" />
           </CardHeader>
           <CardContent>
@@ -81,7 +88,9 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completati</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.stats.completed")}
+            </CardTitle>
             <CheckCircle2 className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
@@ -90,7 +99,9 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Archiviati</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.stats.archived")}
+            </CardTitle>
             <Archive className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -102,15 +113,15 @@ export default function Dashboard() {
       {stats.total === 0 && (
         <Card className="gradient-mesh">
           <CardHeader>
-            <CardTitle>Nessun progetto ancora</CardTitle>
+            <CardTitle>{t("dashboard.emptyState.title")}</CardTitle>
             <CardDescription>
-              Inizia creando il tuo primo progetto
+              {t("dashboard.emptyState.description")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={handleNewProject}>
               <Plus className="mr-2 h-4 w-4" />
-              Crea il primo progetto
+              {t("dashboard.emptyState.action")}
             </Button>
           </CardContent>
         </Card>

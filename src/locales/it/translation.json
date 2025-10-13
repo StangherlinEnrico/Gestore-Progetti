@@ -11,6 +11,64 @@
       "active": "Attivi",
       "completed": "Completati",
       "archived": "Archiviati"
+    },
+    "emptyState": {
+      "title": "Nessun progetto ancora",
+      "description": "Inizia creando il tuo primo progetto",
+      "action": "Crea il primo progetto"
     }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "subtitle": "Configura l'applicazione e gestisci i tuoi dati",
+    "appearance": {
+      "title": "Aspetto",
+      "description": "Personalizza l'aspetto dell'applicazione",
+      "darkMode": "Tema scuro",
+      "darkModeDescription": "Attiva il tema scuro per ridurre l'affaticamento degli occhi",
+      "language": "Lingua",
+      "languageDescription": "Seleziona la lingua dell'interfaccia"
+    },
+    "data": {
+      "title": "Gestione dati",
+      "description": "Esporta, importa o ripristina le tue impostazioni",
+      "export": "Backup impostazioni",
+      "exportDescription": "Esporta tutte le tue impostazioni in un file JSON",
+      "exportButton": "Esporta dati",
+      "import": "Importa impostazioni",
+      "importDescription": "Importa impostazioni da un file JSON di backup",
+      "importButton": "Importa dati",
+      "reset": "Ripristina impostazioni",
+      "resetDescription": "Ripristina tutte le impostazioni ai valori predefiniti. Questa azione non può essere annullata.",
+      "resetButton": "Ripristina impostazioni"
+    },
+    "export": {
+      "success": "Backup creato",
+      "description": "I dati sono stati esportati con successo"
+    },
+    "import": {
+      "success": "Importazione completata",
+      "description": "I dati sono stati importati con successo",
+      "error": "File non valido"
+    },
+    "reset": {
+      "confirm": "Sei sicuro di voler ripristinare tutte le impostazioni? Questa azione non può essere annullata.",
+      "success": "Impostazioni ripristinate",
+      "description": "Le impostazioni sono state ripristinate ai valori predefiniti"
+    },
+    "language": {
+      "updated": "Lingua aggiornata",
+      "description": "Lingua impostata su {{language}}",
+      "error": "Impossibile aggiornare la lingua"
+    }
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "description": "La pagina che stai cercando non esiste o è stata spostata",
+    "backHome": "Torna alla Home"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Errore"
   }
 }

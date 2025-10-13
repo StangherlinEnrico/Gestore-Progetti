@@ -1,24 +1,40 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Home } from "lucide-react";
+import { Button } from "../components/ui/button";
+
+const DEBUG = import.meta.env.DEV;
 
 const NotFound = () => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
+    if (DEBUG) {
+      console.error(
+        "[NotFound] User attempted to access non-existent route:",
+        location.pathname
+      );
+    }
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 underline hover:text-blue-700">
-          Return to Home
-        </a>
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="text-center space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-9xl font-bold text-primary">404</h1>
+          <h2 className="text-2xl font-semibold">{t("notFound.title")}</h2>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            {t("notFound.description")}
+          </p>
+        </div>
+        <Button asChild size="lg">
+          <Link to="/">
+            <Home className="mr-2 h-4 w-4" />
+            {t("notFound.backHome")}
+          </Link>
+        </Button>
       </div>
     </div>
   );

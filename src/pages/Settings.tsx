@@ -1,4 +1,6 @@
+import { useState, useEffect, useRef } from "react";
 import { Download, Upload, Trash2, Moon, Sun, Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -11,6 +13,7 @@ import { Label } from "../components/ui/label";
 import { useToast } from "../hooks/use-toast";
 import { Switch } from "../components/ui/switch";
 import { useSettings } from "../hooks/useSettings";
+import { useLanguage } from "../hooks/useLanguage";
 import {
   Select,
   SelectContent,
@@ -22,11 +25,28 @@ import {
 const DEBUG = import.meta.env.DEV;
 
 export default function Settings() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { settings, updatePreferences, loading } = useSettings();
+  const { currentLanguage, changeLanguage } = useLanguage();
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const languageSelectRef = useRef<HTMLButtonElement>(null);
 
-  const darkMode = settings?.preferences.theme === "dark";
-  const currentLanguage = settings?.preferences.language || "it";
+  useEffect(() => {
+    if (settings) {
+      if (DEBUG) console.log("[Settings] useEffect: settings loaded", settings);
+      const isDark =
+        settings.preferences.theme === "dark" ||
+        (settings.preferences.theme === "system" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      setDarkMode(isDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }
+  }, [settings]);
 
   const handleExport = () => {
     if (DEBUG) console.log("[Settings] handleExport: start");
@@ -36,7 +56,7 @@ export default function Settings() {
     }
 
     const data = JSON.stringify(settings, null, 2);
-    if (DEBUG) console.log("[Settings] handleExport: data stringified", data);
+    if (DEBUG) console.log("[Settings] handleExport: data stringified");
 
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -52,8 +72,8 @@ export default function Settings() {
 
     if (DEBUG) console.log("[Settings] handleExport: backup created");
     toast({
-      title: "Backup creato",
-      description: "I dati sono stati esportati con successo",
+      title: t("settings.export.success"),
+      description: t("settings.export.description"),
     });
   };
 
@@ -85,8 +105,8 @@ export default function Settings() {
                 );
               await updatePreferences(data.preferences);
               toast({
-                title: "Importazione completata",
-                description: "I dati sono stati importati con successo",
+                title: t("settings.import.success"),
+                description: t("settings.import.description"),
               });
               if (DEBUG)
                 console.log("[Settings] handleImport: import successful");
@@ -96,8 +116,8 @@ export default function Settings() {
           } catch (error) {
             if (DEBUG) console.error("[Settings] handleImport: error", error);
             toast({
-              title: "Errore",
-              description: "File non valido",
+              title: t("common.error"),
+              description: t("settings.import.error"),
               variant: "destructive",
             });
           }
@@ -110,11 +130,7 @@ export default function Settings() {
 
   const handleClearAll = async () => {
     if (DEBUG) console.log("[Settings] handleClearAll: start");
-    if (
-      confirm(
-        "Sei sicuro di voler ripristinare tutte le impostazioni? Questa azione non può essere annullata."
-      )
-    ) {
+    if (confirm(t("settings.reset.confirm"))) {
       if (DEBUG)
         console.log(
           "[Settings] handleClearAll: confirmed, resetting preferences"
@@ -131,9 +147,8 @@ export default function Settings() {
       });
 
       toast({
-        title: "Impostazioni ripristinate",
-        description:
-          "Le impostazioni sono state ripristinate ai valori predefiniti",
+        title: t("settings.reset.success"),
+        description: t("settings.reset.description"),
       });
       if (DEBUG) console.log("[Settings] handleClearAll: reset complete");
     } else {
@@ -160,24 +175,33 @@ export default function Settings() {
 
   const handleLanguageChange = async (language: string) => {
     if (DEBUG) console.log("[Settings] handleLanguageChange:", language);
-    await updatePreferences({
-      language,
-    });
 
-    toast({
-      title: "Lingua aggiornata",
-      description: `Lingua impostata su ${
-        language === "it"
-          ? "Italiano"
-          : language === "en"
-          ? "English"
-          : language === "es"
-          ? "Español"
-          : language === "fr"
-          ? "Français"
-          : "Deutsch"
-      }`,
-    });
+    try {
+      await changeLanguage(language);
+
+      const languageNames: Record<string, string> = {
+        it: "Italiano",
+        en: "English",
+      };
+
+      toast({
+        title: t("settings.language.updated"),
+        description: t("settings.language.description", {
+          language: languageNames[language] || language,
+        }),
+      });
+
+      if (languageSelectRef.current) {
+        languageSelectRef.current.blur();
+      }
+    } catch (error) {
+      if (DEBUG) console.error("[Settings] handleLanguageChange: error", error);
+      toast({
+        title: t("common.error"),
+        description: t("settings.language.error"),
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading || !settings) {
@@ -186,33 +210,38 @@ export default function Settings() {
         loading,
         hasSettings: !!settings,
       });
-    return <div>Caricamento...</div>;
+    return <div>{t("common.loading")}</div>;
   }
 
-  if (DEBUG) console.log("[Settings] render: ready", { settings, darkMode });
+  if (DEBUG)
+    console.log("[Settings] render: ready", {
+      settings,
+      darkMode,
+      currentLanguage,
+    });
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Impostazioni</h2>
-        <p className="text-muted-foreground">
-          Configura l'applicazione e gestisci i tuoi dati
-        </p>
+        <h2 className="text-3xl font-bold tracking-tight">
+          {t("settings.title")}
+        </h2>
+        <p className="text-muted-foreground">{t("settings.subtitle")}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Aspetto</CardTitle>
+          <CardTitle>{t("settings.appearance.title")}</CardTitle>
           <CardDescription>
-            Personalizza l'aspetto dell'applicazione
+            {t("settings.appearance.description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Tema scuro</Label>
+              <Label>{t("settings.appearance.darkMode")}</Label>
               <p className="text-sm text-muted-foreground">
-                Attiva il tema scuro per ridurre l'affaticamento degli occhi
+                {t("settings.appearance.darkModeDescription")}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -227,9 +256,9 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Lingua</Label>
+              <Label>{t("settings.appearance.language")}</Label>
               <p className="text-sm text-muted-foreground">
-                Seleziona la lingua dell'interfaccia
+                {t("settings.appearance.languageDescription")}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -238,15 +267,12 @@ export default function Settings() {
                 value={currentLanguage}
                 onValueChange={handleLanguageChange}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px]" ref={languageSelectRef}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="it">Italiano</SelectItem>
                   <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="es">Español</SelectItem>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="de">Deutsch</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -256,16 +282,14 @@ export default function Settings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Gestione dati</CardTitle>
-          <CardDescription>
-            Esporta, importa o ripristina le tue impostazioni
-          </CardDescription>
+          <CardTitle>{t("settings.data.title")}</CardTitle>
+          <CardDescription>{t("settings.data.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Backup impostazioni</Label>
+            <Label>{t("settings.data.export")}</Label>
             <p className="text-sm text-muted-foreground">
-              Esporta tutte le tue impostazioni in un file JSON
+              {t("settings.data.exportDescription")}
             </p>
             <Button
               onClick={handleExport}
@@ -273,14 +297,14 @@ export default function Settings() {
               className="w-full sm:w-auto"
             >
               <Download className="mr-2 h-4 w-4" />
-              Esporta dati
+              {t("settings.data.exportButton")}
             </Button>
           </div>
 
           <div className="space-y-2">
-            <Label>Importa impostazioni</Label>
+            <Label>{t("settings.data.import")}</Label>
             <p className="text-sm text-muted-foreground">
-              Importa impostazioni da un file JSON di backup
+              {t("settings.data.importDescription")}
             </p>
             <Button
               onClick={handleImport}
@@ -288,15 +312,14 @@ export default function Settings() {
               className="w-full sm:w-auto"
             >
               <Upload className="mr-2 h-4 w-4" />
-              Importa dati
+              {t("settings.data.importButton")}
             </Button>
           </div>
 
           <div className="space-y-2">
-            <Label>Ripristina impostazioni</Label>
+            <Label>{t("settings.data.reset")}</Label>
             <p className="text-sm text-muted-foreground">
-              Ripristina tutte le impostazioni ai valori predefiniti. Questa
-              azione non può essere annullata.
+              {t("settings.data.resetDescription")}
             </p>
             <Button
               onClick={handleClearAll}
@@ -304,7 +327,7 @@ export default function Settings() {
               className="w-full sm:w-auto"
             >
               <Trash2 className="mr-2 h-4 w-4" />
-              Ripristina impostazioni
+              {t("settings.data.resetButton")}
             </Button>
           </div>
         </CardContent>
