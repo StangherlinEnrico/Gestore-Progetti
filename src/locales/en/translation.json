@@ -2,20 +2,39 @@
   "app": {
     "title": "Project Manager"
   },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "settings": "Settings",
+    "info": "Info"
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Overview of all your projects",
     "newProject": "New Project",
     "stats": {
       "total": "Total Projects",
+      "totalDescription": "All created projects",
       "active": "Active",
+      "activeDescription": "Ongoing projects",
       "completed": "Completed",
-      "archived": "Archived"
+      "completedDescription": "Finished projects",
+      "archived": "Archived",
+      "archivedDescription": "Archived projects"
     },
     "emptyState": {
       "title": "No projects yet",
-      "description": "Start by creating your first project",
+      "description": "Start by creating your first project to organize your work",
       "action": "Create first project"
+    },
+    "recentProjects": {
+      "title": "Recent projects",
+      "description": "Your latest updated projects"
+    },
+    "status": {
+      "active": "Active",
+      "archived": "Archived",
+      "deleted": "Deleted"
     }
   },
   "settings": {

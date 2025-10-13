@@ -2,20 +2,39 @@
   "app": {
     "title": "Gestore Progetti"
   },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "projects": "Progetti",
+    "settings": "Impostazioni",
+    "info": "Info"
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Panoramica dei tuoi progetti",
     "newProject": "Nuovo progetto",
     "stats": {
       "total": "Totale progetti",
+      "totalDescription": "Tutti i progetti creati",
       "active": "Attivi",
+      "activeDescription": "Progetti in corso",
       "completed": "Completati",
-      "archived": "Archiviati"
+      "completedDescription": "Progetti terminati",
+      "archived": "Archiviati",
+      "archivedDescription": "Progetti archiviati"
     },
     "emptyState": {
       "title": "Nessun progetto ancora",
-      "description": "Inizia creando il tuo primo progetto",
+      "description": "Inizia creando il tuo primo progetto per organizzare il tuo lavoro",
       "action": "Crea il primo progetto"
+    },
+    "recentProjects": {
+      "title": "Progetti recenti",
+      "description": "I tuoi ultimi progetti aggiornati"
+    },
+    "status": {
+      "active": "Attivo",
+      "archived": "Archiviato",
+      "deleted": "Eliminato"
     }
   },
   "settings": {

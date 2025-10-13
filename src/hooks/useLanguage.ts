@@ -11,9 +11,7 @@ export function useLanguage() {
     if (DEBUG) console.log('[useLanguage] changeLanguage:', language);
     
     try {
-      await db.updateSettings({
-        preferences: { language }
-      });
+      await db.updateSettings({ language });
       
       await i18n.changeLanguage(language);
       

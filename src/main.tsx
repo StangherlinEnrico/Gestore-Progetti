@@ -1,4 +1,3 @@
-// src/main.tsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -14,11 +13,11 @@ const initializeApp = async () => {
   if (DEBUG) console.log("[main] initializeApp: start");
 
   try {
-    const settings = await db.getSettingsData();
+    const settings = await db.getSettings();
     if (DEBUG) console.log("[main] initializeApp: settings loaded", settings);
 
-    const theme = settings.preferences.theme;
-    const language = settings.preferences.language;
+    const theme = settings.theme;
+    const language = settings.language;
 
     if (
       theme === "dark" ||

@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { db, type SettingsPageData, type UpdateSettingsPayload } from '../db/database';
+import { db, type Settings } from '../db/database';
 
 const DEBUG = import.meta.env.DEV;
 
 export function useSettings() {
-  const [settings, setSettings] = useState<SettingsPageData | null>(null);
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -13,8 +13,8 @@ export function useSettings() {
     try {
       setLoading(true);
       setError(null);
-      if (DEBUG) console.log('[useSettings] fetchSettings: calling db.getSettingsData()');
-      const data = await db.getSettingsData();
+      if (DEBUG) console.log('[useSettings] fetchSettings: calling db.getSettings()');
+      const data = await db.getSettings();
       if (DEBUG) console.log('[useSettings] fetchSettings: data received', data);
       setSettings(data);
     } catch (err) {
@@ -31,7 +31,7 @@ export function useSettings() {
     fetchSettings();
   }, [fetchSettings]);
 
-  const updateSettings = useCallback(async (payload: UpdateSettingsPayload) => {
+  const updateSettings = useCallback(async (payload: Partial<Settings>) => {
     if (DEBUG) console.log('[useSettings] updateSettings: start', payload);
     try {
       if (DEBUG) console.log('[useSettings] updateSettings: calling db.updateSettings()');
@@ -44,23 +44,6 @@ export function useSettings() {
     }
   }, [fetchSettings]);
 
-  const updateUserProfile = useCallback(async (name: string, avatar?: string) => {
-    if (DEBUG) console.log('[useSettings] updateUserProfile:', { name, avatar });
-    return updateSettings({
-      user: { name, avatar }
-    });
-  }, [updateSettings]);
-
-  const updatePreferences = useCallback(async (preferences: UpdateSettingsPayload['preferences']) => {
-    if (DEBUG) console.log('[useSettings] updatePreferences:', preferences);
-    return updateSettings({ preferences });
-  }, [updateSettings]);
-
-  const updateSecurity = useCallback(async (security: UpdateSettingsPayload['security']) => {
-    if (DEBUG) console.log('[useSettings] updateSecurity:', security);
-    return updateSettings({ security });
-  }, [updateSettings]);
-
   const refetch = useCallback(() => {
     if (DEBUG) console.log('[useSettings] refetch: manual refetch triggered');
     fetchSettings();
@@ -71,9 +54,6 @@ export function useSettings() {
     loading,
     error,
     updateSettings,
-    updateUserProfile,
-    updatePreferences,
-    updateSecurity,
     refetch
   };
 }

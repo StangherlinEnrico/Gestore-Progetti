@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, FolderKanban, Settings, Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   Sidebar,
   SidebarContent,
@@ -13,38 +14,42 @@ import {
 } from "../ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Progetti", url: "/progetti", icon: FolderKanban },
-  { title: "Impostazioni", url: "/impostazioni", icon: Settings },
-  { title: "Info", url: "/info", icon: Info },
+  { key: "dashboard", url: "/", icon: LayoutDashboard },
+  { key: "projects", url: "/progetti", icon: FolderKanban },
+  { key: "settings", url: "/impostazioni", icon: Settings },
+  { key: "info", url: "/info", icon: Info },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
+  const { t } = useTranslation();
 
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Gestore Progetti</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("app.title")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <NavLink
-                      to={item.url}
-                      end
-                      className={({ isActive }) =>
-                        isActive ? "bg-sidebar-accent" : ""
-                      }
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map((item) => {
+                const title = t(`sidebar.${item.key}`);
+                return (
+                  <SidebarMenuItem key={item.key}>
+                    <SidebarMenuButton asChild tooltip={title}>
+                      <NavLink
+                        to={item.url}
+                        end
+                        className={({ isActive }) =>
+                          isActive ? "bg-sidebar-accent" : ""
+                        }
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
