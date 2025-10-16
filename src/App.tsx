@@ -6,6 +6,7 @@ import { AppLayout } from "./components/layout/AppLayout";
 import Settings from "./pages/Settings";
 import "./i18n";
 import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
 
 const DEBUG = import.meta.env.DEV;
 
@@ -44,6 +45,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/info" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />

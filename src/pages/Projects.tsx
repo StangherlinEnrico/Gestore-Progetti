@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Search, Grid3x3, List } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import {
@@ -33,6 +34,7 @@ import { TitleRow } from "../components/ui/titleRow";
 
 export default function Projects() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<
@@ -89,7 +91,7 @@ export default function Projects() {
   };
 
   const handleCardClick = (project: Project) => {
-    console.log("TODO: apertura dettagli progetto", project);
+    navigate(`/projects/${project.id}`);
   };
 
   const getStatusVariant = (

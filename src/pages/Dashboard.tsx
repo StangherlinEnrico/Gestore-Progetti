@@ -2,6 +2,7 @@ import { FolderKanban, CheckCircle2, Archive, TrendingUp } from "lucide-react";
 import { useProjects } from "../hooks/useProjects";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -21,25 +22,33 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const stats = {
-    total: projects.length,
-    active: projects.filter((p) => p.status === "active").length,
-    completed: projects.filter((p) => p.status === "completed").length,
-    archived: projects.filter((p) => p.status === "archived").length,
-  };
+  const stats = useMemo(
+    () => ({
+      active: projects.filter((p) => p.status === "active").length,
+      completed: projects.filter((p) => p.status === "completed").length,
+      archived: projects.filter((p) => p.status === "archived").length,
+    }),
+    [projects]
+  );
+
+  const sortedProjects = useMemo(
+    () =>
+      [...projects]
+        .filter((p) => p.status === "active")
+        .sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        ),
+    [projects]
+  );
 
   const handleRedirectProjects = () => {
     navigate("/projects?action=create");
   };
 
   const handleStatClick = (status: string) => {
-    // TODO: Implementare navigazione alla pagina progetti con filtro
-    console.log("TODO: Navigare a /projects con filtro status:", status);
+    navigate(`/projects?status=${status}`);
   };
-
-  const sortedProjects = [...projects].sort(
-    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-  );
 
   if (loading) {
     return (
@@ -81,20 +90,16 @@ export default function Dashboard() {
     );
   }
 
+  const hasProjects = projects.length > 0;
+  const hasActiveProjects = stats.active > 0;
+
   return (
     <div className="space-y-8 pb-8">
       {/* Title */}
       <TitleRow title="dashboard.title" subtitle="dashboard.subtitle" />
 
       {/* Stats */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="dashboard.stats.total"
-          icon={FolderKanban}
-          count={stats.total}
-          description="dashboard.stats.totalDescription"
-        />
-
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <StatCard
           title="dashboard.stats.active"
           icon={TrendingUp}
@@ -120,8 +125,8 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* No projects */}
-      {stats.total === 0 && (
+      {/* Content based on project state */}
+      {!hasProjects ? (
         <MissProjects
           icon={FolderKanban}
           title="dashboard.emptyState.title"
@@ -130,10 +135,7 @@ export default function Dashboard() {
           buttonText="dashboard.emptyState.action"
           buttonClick={handleRedirectProjects}
         />
-      )}
-
-      {/* No active projects */}
-      {stats.total !== 0 && stats.active === 0 && (
+      ) : !hasActiveProjects ? (
         <MissProjects
           icon={CheckCircle2}
           title="dashboard.noActiveProjects.title"
@@ -142,10 +144,7 @@ export default function Dashboard() {
           buttonText="dashboard.noActiveProjects.action"
           buttonClick={handleRedirectProjects}
         />
-      )}
-
-      {/* Recent projects */}
-      {stats.total > 0 && stats.active > 0 && (
+      ) : (
         <RecentProjects projects={sortedProjects} />
       )}
     </div>

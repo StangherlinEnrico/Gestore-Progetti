@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Grid3x3, List } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Project } from "../../types/database";
 import {
   Table,
@@ -19,14 +20,20 @@ interface RecentProjectsProps {
 
 export function RecentProjects({ projects }: RecentProjectsProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const originalDisplayCount = 9;
   const [displayCount, setDisplayCount] = useState(originalDisplayCount);
+
+  const displayedProjects = useMemo(
+    () => projects.slice(0, displayCount),
+    [projects, displayCount]
+  );
+
   const hasMoreProjects = projects.length > displayCount;
 
   const handleProjectClick = (projectId: string) => {
-    // TODO: Implementare navigazione al dettaglio progetto
-    console.log("TODO: Navigare al progetto con ID:", projectId);
+    navigate(`/projects/${projectId}`);
   };
 
   const handleLoadMore = () => {
@@ -64,7 +71,7 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
 
       {viewMode === "grid" ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, displayCount).map((project) => (
+          {displayedProjects.map((project) => (
             <Card
               key={project.id}
               className="group border hover:border-primary/50 hover:shadow-md transition-all cursor-pointer"
@@ -86,39 +93,41 @@ export function RecentProjects({ projects }: RecentProjectsProps) {
           ))}
         </div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">
-                {t("dashboard.table.name")}
-              </TableHead>
-              <TableHead>{t("dashboard.table.description")}</TableHead>
-              <TableHead className="w-[150px] text-center">
-                {t("dashboard.table.createdAt")}
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projects.map((project) => (
-              <TableRow
-                key={project.id}
-                className="cursor-pointer"
-                onClick={() => handleProjectClick(project.id)}
-              >
-                <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>
-                  {project.description || t("dashboard.table.noDescription")}
-                </TableCell>
-                <TableCell className="text-center">
-                  {new Date(project.createdAt).toLocaleDateString("it-IT")}
-                </TableCell>
+        <div className="border rounded-lg">
+          <Table>
+            <TableHeader className="sticky top-0 bg-background z-10">
+              <TableRow>
+                <TableHead className="w-[200px]">
+                  {t("dashboard.table.name")}
+                </TableHead>
+                <TableHead>{t("dashboard.table.description")}</TableHead>
+                <TableHead className="w-[150px] text-center">
+                  {t("dashboard.table.createdAt")}
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {displayedProjects.map((project) => (
+                <TableRow
+                  key={project.id}
+                  className="cursor-pointer"
+                  onClick={() => handleProjectClick(project.id)}
+                >
+                  <TableCell className="font-medium">{project.name}</TableCell>
+                  <TableCell>
+                    {project.description || t("dashboard.table.noDescription")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {new Date(project.createdAt).toLocaleDateString("it-IT")}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
 
-      {viewMode === "grid" && hasMoreProjects && (
+      {hasMoreProjects && (
         <div className="flex justify-center pt-4">
           <Button onClick={handleLoadMore} variant="outline">
             {t("common.loadMore")}
