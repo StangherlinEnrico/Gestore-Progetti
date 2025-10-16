@@ -27,9 +27,14 @@
       "description": "Inizia creando il tuo primo progetto per organizzare il tuo lavoro",
       "action": "Crea il primo progetto"
     },
+    "noActiveProjects": {
+      "title": "Nessun progetto attivo",
+      "description": "Crea nuovi progetti o modifica lo stato di quelli esistenti",
+      "action": "Vai ai progetti"
+    },
     "recentProjects": {
-      "title": "Progetti recenti",
-      "description": "I tuoi ultimi progetti aggiornati"
+      "title": "Progetti attivi recenti",
+      "description": "I tuoi ultimi progetti attivi aggiornati"
     },
     "status": {
       "active": "Attivo",
@@ -37,11 +42,44 @@
       "archived": "Archiviato",
       "deleted": "Eliminato"
     },
-    "list": {
+    "table": {
       "name": "Nome",
       "description": "Descrizione",
-      "lastUpdate": "Ultimo aggiornamento",
-      "status": "Stato"
+      "status": "Stato",
+      "createdAt": "Data creazione",
+      "noDescription": "Nessuna descrizione"
+    }
+  },
+  "projects": {
+    "title": "Progetti",
+    "subtitle": "Gestisci tutti i tuoi progetti",
+    "newProject": "Nuovo progetto",
+    "search": "Cerca progetti...",
+    "filterByStatus": "Filtra per stato",
+    "filters": {
+      "all": "Tutti",
+      "active": "Attivi",
+      "completed": "Completati",
+      "archived": "Archiviati"
+    },
+    "status": {
+      "active": "Attivo",
+      "completed": "Completato",
+      "archived": "Archiviato"
+    },
+    "noDescription": "Nessuna descrizione disponibile per questo progetto",
+    "noProjects": {
+      "title": "Nessun progetto trovato",
+      "withFilters": "Prova a modificare i filtri di ricerca",
+      "withoutFilters": "Inizia creando un nuovo progetto"
+    },
+    "deleteConfirm": "Sei sicuro di voler eliminare questo progetto?",
+    "table": {
+      "name": "Nome",
+      "description": "Descrizione",
+      "status": "Stato",
+      "createdAt": "Data creazione",
+      "noDescription": "Nessuna descrizione"
     }
   },
   "settings": {

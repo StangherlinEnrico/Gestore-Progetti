@@ -28,8 +28,11 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
+import { useTranslation } from "react-i18next";
+import { TitleRow } from "../components/ui/titleRow";
 
 export default function Projects() {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<
@@ -79,7 +82,7 @@ export default function Projects() {
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (confirm("Sei sicuro di voler eliminare questo progetto?")) {
+    if (confirm(t("projects.deleteConfirm"))) {
       await db.deleteProject(id);
       await loadProjects();
     }
@@ -87,7 +90,6 @@ export default function Projects() {
 
   const handleCardClick = (project: Project) => {
     console.log("TODO: apertura dettagli progetto", project);
-    // TODO: implementare navigazione a pagina dettaglio progetto
   };
 
   const getStatusVariant = (
@@ -105,19 +107,6 @@ export default function Projects() {
     }
   };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case "active":
-        return "Attivo";
-      case "completed":
-        return "Completato";
-      case "archived":
-        return "Archiviato";
-      default:
-        return status;
-    }
-  };
-
   const filteredProjects = projects.filter((project) => {
     const matchesSearch =
       project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -129,14 +118,10 @@ export default function Projects() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 pb-8">
+      {/* Title */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Progetti</h2>
-          <p className="text-muted-foreground">
-            Gestisci tutti i tuoi progetti
-          </p>
-        </div>
+        <TitleRow title="projects.title" subtitle="projects.subtitle" />
         <Button
           onClick={() => {
             setEditingProject(undefined);
@@ -145,16 +130,17 @@ export default function Projects() {
           size="lg"
         >
           <Plus className="mr-2 h-4 w-4" />
-          Nuovo progetto
+          {t("projects.newProject")}
         </Button>
       </div>
 
+      {/* Search bar */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-1 gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Cerca progetti..."
+              placeholder={t("projects.search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -169,13 +155,19 @@ export default function Projects() {
             }
           >
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Filtra per stato" />
+              <SelectValue placeholder={t("projects.filterByStatus")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tutti</SelectItem>
-              <SelectItem value="active">Attivi</SelectItem>
-              <SelectItem value="completed">Completati</SelectItem>
-              <SelectItem value="archived">Archiviati</SelectItem>
+              <SelectItem value="all">{t("projects.filters.all")}</SelectItem>
+              <SelectItem value="active">
+                {t("projects.filters.active")}
+              </SelectItem>
+              <SelectItem value="completed">
+                {t("projects.filters.completed")}
+              </SelectItem>
+              <SelectItem value="archived">
+                {t("projects.filters.archived")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -226,14 +218,13 @@ export default function Projects() {
                         </div>
                       </div>
                       <Badge variant={getStatusVariant(project.status)}>
-                        {getStatusLabel(project.status)}
+                        {t(`projects.status.${project.status}`)}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground line-clamp-3">
-                      {project.description ||
-                        "Nessuna descrizione disponibile per questo progetto"}
+                      {project.description || t("projects.noDescription")}
                     </p>
                   </CardContent>
                 </Card>
@@ -244,10 +235,16 @@ export default function Projects() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[200px]">Nome</TableHead>
-                    <TableHead>Descrizione</TableHead>
-                    <TableHead className="w-[150px]">Stato</TableHead>
-                    <TableHead className="w-[150px]">Data creazione</TableHead>
+                    <TableHead className="w-[200px]">
+                      {t("projects.table.name")}
+                    </TableHead>
+                    <TableHead>{t("projects.table.description")}</TableHead>
+                    <TableHead className="w-[150px]">
+                      {t("projects.table.status")}
+                    </TableHead>
+                    <TableHead className="w-[150px]">
+                      {t("projects.table.createdAt")}
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -261,11 +258,12 @@ export default function Projects() {
                         {project.name}
                       </TableCell>
                       <TableCell>
-                        {project.description || "Nessuna descrizione"}
+                        {project.description ||
+                          t("projects.table.noDescription")}
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusVariant(project.status)}>
-                          {getStatusLabel(project.status)}
+                          {t(`projects.status.${project.status}`)}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -283,11 +281,13 @@ export default function Projects() {
       ) : (
         <div className="flex min-h-[400px] items-center justify-center rounded-lg border border-dashed">
           <div className="text-center">
-            <p className="text-lg font-medium">Nessun progetto trovato</p>
+            <p className="text-lg font-medium">
+              {t("projects.noProjects.title")}
+            </p>
             <p className="text-sm text-muted-foreground">
               {searchQuery || statusFilter !== "all"
-                ? "Prova a modificare i filtri di ricerca"
-                : "Inizia creando un nuovo progetto"}
+                ? t("projects.noProjects.withFilters")
+                : t("projects.noProjects.withoutFilters")}
             </p>
           </div>
         </div>

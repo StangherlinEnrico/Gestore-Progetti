@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
+import { TitleRow } from "../components/ui/titleRow";
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
@@ -184,14 +185,7 @@ export default function Settings() {
 
   return (
     <div className="space-y-8 pb-8">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight">
-          {t("settings.title")}
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          {t("settings.subtitle")}
-        </p>
-      </div>
+      <TitleRow title="settings.title" subtitle="settings.subtitle" />
 
       <div className="grid gap-6">
         <Card className="border-2">
